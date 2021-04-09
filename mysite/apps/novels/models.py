@@ -16,13 +16,13 @@ class Novel(models.Model):
         ('CHA', 'Chapters')
     ]
 
-    type         = models.CharField(max_length=2, null=False, choices=TYPE_CHOICES ,default=TYPE_CHOICES[0][0])
-    structure    = models.CharField(max_length=3, null=False, choices=STRUCTURE_CHOICES, default=STRUCTURE_CHOICES[0][0])
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_updated = models.DateTimeField(auto_now=True)
+    type         = models.CharField(max_length=2, null=False, choices=TYPE_CHOICES ,default=TYPE_CHOICES[0][0], verbose_name='Tipo')
+    structure    = models.CharField(max_length=3, null=False, choices=STRUCTURE_CHOICES, default=STRUCTURE_CHOICES[0][0], verbose_name='Estructura')
+    creation_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
+    last_update = models.DateTimeField(auto_now=True)
     n_likes      = models.IntegerField(editable=False, default=0, verbose_name='Likes')
     n_dislikes   = models.IntegerField(editable=False, default=0, verbose_name='Dislikes')
-    n_views      = models.IntegerField(editable=False, default=0, verbose_name='Views')
+    n_views      = models.IntegerField(editable=False, default=0, verbose_name='Vistas')
 
     def __str__(self):
         return self.title
