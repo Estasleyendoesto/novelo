@@ -19,11 +19,15 @@ class Novel(models.Model):
 
     type          = models.CharField(max_length=2, null=False, choices=TYPE_CHOICES ,default=TYPE_CHOICES[0][0], verbose_name='Tipo')
     structure     = models.CharField(max_length=3, null=False, choices=STRUCTURE_CHOICES, default=STRUCTURE_CHOICES[0][0], verbose_name='Estructura')
+
+    author        = models.JSONField(null=True)
+    artist        = models.JSONField(null=True)
+
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     last_update   = models.DateTimeField(auto_now=True)
-    n_likes       = models.IntegerField(editable=False, default=0, verbose_name='Likes')
-    n_dislikes    = models.IntegerField(editable=False, default=0, verbose_name='Dislikes')
-    n_views       = models.IntegerField(editable=False, default=0, verbose_name='Vistas')
+    likes         = models.IntegerField(editable=False, default=0, verbose_name='Likes')
+    dislikes      = models.IntegerField(editable=False, default=0, verbose_name='Dislikes')
+    views         = models.IntegerField(editable=False, default=0, verbose_name='Vistas')
 
     def __str__(self):
         return self.title
@@ -33,31 +37,33 @@ class Novel(models.Model):
         verbose_name_plural = 'Novelas'
 
 
-class Volume(models.Model):
+class Distro(models.Model):
     title         = models.CharField(max_length=180, null=False, blank=False)
-    number        = models.SmallIntegerField(verbose_name='nº')
+    numero        = models.SmallIntegerField(verbose_name='Volumen número')
     description   = models.TextField(max_length=666, null=True, blank=True)
     cover_path    = models.SlugField(max_length=255, null=True, blank=True)
+    emision_date  = models.DateField(verbose_name='Fecha de emisión', null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     last_update   = models.DateTimeField(auto_now=True, verbose_name='Última actualización')
-    novel_id      = models.ForeignKey('Novel', on_delete=models.CASCADE, null=False, blank=False, related_name='volume_novel', verbose_name='Novela')
-    n_likes       = models.IntegerField(editable=False, default=0, verbose_name='Likes')
-    n_dislikes    = models.IntegerField(editable=False, default=0, verbose_name='Dislikes')
-    n_views       = models.IntegerField(editable=False, default=0, verbose_name='Vistas')
+    novel         = models.ForeignKey('Novel', on_delete=models.CASCADE, null=False, blank=False, related_name='distro_novel', verbose_name='Novela')
+    likes         = models.IntegerField(editable=False, default=0)
+    dislikes      = models.IntegerField(editable=False, default=0)
+    views         = models.IntegerField(editable=False, default=0)
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name        = 'Volumen'
-        verbose_name_plural = 'Volúmenes'
+        verbose_name        = 'Distribución'
+        verbose_name_plural = 'Distribuciones'
 
 
 class Chapter(models.Model):
     title         = models.CharField(max_length=180, null=True, blank=True)
-    number        = models.SmallIntegerField(verbose_name='nº')
+    numero        = models.SmallIntegerField()
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     last_update   = models.DateTimeField(auto_now=True)
+    new_content   = models.BooleanField()
 
     TYPE_CHOICES = [
         ('PRO', 'Prologue'),
@@ -69,29 +75,24 @@ class Chapter(models.Model):
     ]
 
     type          = models.CharField(max_length=3, null=True, choices=TYPE_CHOICES, default=TYPE_CHOICES[3][0], verbose_name='Tipo')
-    volume_id     = models.ForeignKey('Volume', on_delete=models.CASCADE, null=False, blank=False, related_name='chapter_volume', verbose_name='Volumen')
-    n_likes       = models.IntegerField(editable=False, default=0, verbose_name='Likes')
-    n_dislikes    = models.IntegerField(editable=False, default=0, verbose_name='Dislikes')
-    n_views       = models.IntegerField(editable=False, default=0, verbose_name='Vistas')
+    distro        = models.ForeignKey('Distro', on_delete=models.CASCADE, null=False, blank=False, related_name='chapter_distro', verbose_name='Distribución')
+    views         = models.IntegerField(editable=False, default=0)
 
     def __str__(self):
-        return 'Capítulo {0}'.format(self.number)
+        return 'Capítulo {0}'.format(self.numero)
 
     class Meta:
         verbose_name        = 'Capítulo'
         verbose_name_plural = 'Capítulos'
 
 
-# Subida de ilustraciones a novelas/id_novela/id_volumen/nombre_imagen.jpg*
-# La instancia es el objeto actual y se mueve mediante las Foreign Keys
-def volume_directory_path(instance, filename):
-    return 'novels/{0}/{1}/{2}'.format(instance.volume_id.novel_id.id, instance.volume_id.id, filename)
+def distro_directory_path(instance, filename):
+    return 'novels/{0}/{1}/{2}'.format(instance.distro.novel.id, instance.distro.id, filename)
 
-# Surge la necesidad de eliminar la imagen anterior si es reemplazada (actualmente no lo hace, solucionar)
 class Illustration(models.Model):
     name        = models.SlugField(max_length=60, null=True, blank=True)
-    picture     = models.ImageField(upload_to=volume_directory_path, max_length=100, null=False)
-    volume_id   = models.ForeignKey('Volume', on_delete=models.CASCADE, null=False, blank=False, related_name='illustration_volume', verbose_name='Volumen')
+    picture     = models.ImageField(upload_to=distro_directory_path, max_length=100, null=False)
+    distro      = models.ForeignKey('Distro', on_delete=models.CASCADE, null=False, blank=False, related_name='illustration_distro', verbose_name='Distribución')
     uploaded_by = models.ForeignKey('users.User', on_delete=models.CASCADE, null=False, blank=False, related_name='illustration_user', verbose_name='Usuario')
     upload_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de subida')
 

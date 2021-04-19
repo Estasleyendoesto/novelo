@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Novel, Volume, Chapter, Illustration
+from .models import Novel, Distro, Chapter, Illustration
 
 @admin.register(Novel)
 class NovelAdmin(admin.ModelAdmin):
-    list_display       = ['title', 'type', 'structure', 'last_update', 'n_likes', 'n_dislikes', 'n_views']
+    list_display       = ['title', 'type', 'structure', 'last_update', 'likes', 'dislikes', 'views']
     ordering           = ['title']
-    readonly_fields    = ('creation_date', 'last_update', 'n_likes', 'n_dislikes', 'n_views')
+    readonly_fields    = ('creation_date', 'last_update', 'likes', 'dislikes', 'views')
     list_display_links = ['title']
     list_filter        = ('type', 'structure', 'creation_date')
     search_fields      = ['title']
@@ -13,45 +13,45 @@ class NovelAdmin(admin.ModelAdmin):
     show_full_result_count = True
 
 
-@admin.register(Volume)
-class VolumeAdmin(admin.ModelAdmin):
-    list_display       = ['title', 'number', 'novel_id', 'creation_date', 'last_update', 'n_likes', 'n_dislikes', 'n_views']
-    ordering           = ['title', 'number']
-    readonly_fields    = ('creation_date', 'last_update', 'n_likes', 'n_dislikes', 'n_views')
+@admin.register(Distro)
+class DistroAdmin(admin.ModelAdmin):
+    list_display       = ['title', 'numero', 'novel', 'creation_date', 'last_update', 'likes', 'dislikes', 'views']
+    ordering           = ['title', 'numero']
+    readonly_fields    = ('creation_date', 'last_update', 'likes', 'dislikes', 'views')
     list_display_links = ['title']
     list_filter        = ('creation_date', 'last_update')
-    search_fields      = ['title', 'number']
+    search_fields      = ['title', 'numero']
 
     show_full_result_count = True
 
 
 @admin.register(Chapter)
 class ChapterAdmin(admin.ModelAdmin):
-    list_display       = ['title', 'number', 'type', 'volume_id', 'novela', 'creation_date', 'n_likes', 'n_dislikes', 'n_views']
-    ordering           = ['title', 'number']
-    readonly_fields    = ('creation_date', 'last_update', 'n_likes', 'n_dislikes', 'n_views')
-    list_display_links = ['title', 'number']
+    list_display       = ['title', 'numero', 'type', 'distro', 'novela', 'creation_date', 'views']
+    ordering           = ['title', 'numero']
+    readonly_fields    = ('creation_date', 'last_update', 'views')
+    list_display_links = ['title', 'numero']
     list_filter        = ('type', 'creation_date', 'last_update')
-    search_fields      = ['title', 'number']
+    search_fields      = ['title', 'numero']
 
-    empty_value_display    = 'Capítulo'
+    empty_value_display    = ''
     show_full_result_count = True
 
     # para list_display[4] mostrar nombre de novela
     def novela(self, obj):
-        return obj.volume_id.novel_id
+        return obj.distro.novel
 
 @admin.register(Illustration)
 class IllustrationAdmin(admin.ModelAdmin):
-    list_display       = ['name', 'picture', 'novela', 'volume_id', 'uploaded_by', 'upload_date']
+    list_display       = ['name', 'picture', 'novela', 'distro', 'uploaded_by', 'upload_date']
     ordering           = ['name']
     readonly_fields    = ['upload_date']
     list_display_links = ['name', 'picture']
-    list_filter        = ('volume_id', 'uploaded_by', 'upload_date')
-    search_fields      = ['name', 'novela', 'volume_id', 'uploaded_by']
+    list_filter        = ('distro', 'uploaded_by', 'upload_date')
+    search_fields      = ['name', 'novela', 'distro', 'uploaded_by']
 
     show_full_result_count = True
 
     # para list_display[2] mostrar nombre de novela
     def novela(self, obj):
-        return obj.volume_id.novel_id
+        return obj.distro.novel

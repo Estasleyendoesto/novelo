@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'apps.users',
-    'apps.novels'
+    'apps.novels',
+    'apps.fansubs',
+
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
