@@ -1,4 +1,5 @@
 from django.db import models
+from multiselectfield import MultiSelectField
 
 class Novel(models.Model):
     title         = models.CharField(max_length=180, null=False, blank=False)
@@ -8,7 +9,7 @@ class Novel(models.Model):
     cover_path    = models.SlugField(max_length=255, null=True, blank=True)
 
     TYPE_CHOICES = [
-        ('LN', 'Light novel'),
+        ('LN', 'Light novel'),  
         ('WN', 'Web novel')
     ]
     STRUCTURE_CHOICES = [
@@ -19,6 +20,43 @@ class Novel(models.Model):
 
     type          = models.CharField(max_length=2, null=False, choices=TYPE_CHOICES ,default=TYPE_CHOICES[0][0], verbose_name='Tipo')
     structure     = models.CharField(max_length=3, null=False, choices=STRUCTURE_CHOICES, default=STRUCTURE_CHOICES[0][0], verbose_name='Estructura')
+
+    GENRE_CHOICES = [
+        ('---', ''),
+        ('ATN', 'Action'),
+        ('ADV', 'Adventure'),
+        ('CLB', 'Celebrity'),
+        ('CMD', 'Comedy'),
+        ('DRM', 'Drama'),
+        ('ECC', 'Ecchi'),
+        ('FNT', 'Fantasy'),
+        ('GNB', 'Gender Blender'),
+        ('HRM', 'Harem'),
+        ('HIS', 'Historical'),
+        ('HOR', 'Horror'),
+        ('JOS', 'Josei'),
+        ('MLA', 'Martial Arts'),
+        ('MTE', 'Mature'),
+        ('MCA', 'Mecha'),
+        ('MYS', 'Mystery'),
+        ('PSY', 'Psychological'),
+        ('ROM', 'Romance'),
+        ('SCL', 'School Life'),
+        ('SFI', 'Sci-fi'),
+        ('SEI', 'Seinen'),
+        ('STA', 'Shotacon'),
+        ('SHO', 'Shoujo'),
+        ('SAI', 'Shoujo Ai'),
+        ('SOL', 'Slife of Life'),
+        ('SOS', 'Sports'),
+        ('SUP', 'Supernatural'),
+        ('TRA', 'Tragedy'),
+        ('WUX', 'Wuxia'),
+        ('YAO', 'Yaoi'),
+        ('YUI', 'Yuri'),
+    ]
+
+    genre         = MultiSelectField(choices=GENRE_CHOICES, max_length=3, default=GENRE_CHOICES[0][0])
 
     author        = models.JSONField(null=True)
     artist        = models.JSONField(null=True)

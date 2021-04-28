@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+        {% block css %}{% endblock %}
+    </head>
+    <body>
+        <header>
+            <h1>LOGOTYPE</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Search</a></li>
+                    <li><a href="#">My Libraries</a></li>
+                    <li><a href="#">Dark mode</a></li>
+                </ul>
+            </nav>
+            <div>
+                <div>
+                    <small>Bienvenido, anónimo!</small>
+                    <p><a href="#">Iniciar Sesión</a> | <a href="#">Registrarse</a></p>
+                </div>
+                <div>
+                    {% load static %}
+                    <img src="{% static 'img/loli.jpg' %}" alt="Username" width='80'/>
+                </div>
+            </div>
+        </header>
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        <footer>
+            <small>☻ Copyright; Todos los derechos reservados.</small>
+        </footer>
+
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

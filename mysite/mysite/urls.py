@@ -20,8 +20,13 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Custom views
+from apps.main import views as main
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('', main.home, name='home'),
 ]
 
 if settings.DEBUG:
