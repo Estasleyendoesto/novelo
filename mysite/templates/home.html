@@ -22,6 +22,7 @@
                 <img src="{% static 'img/guts.jpg' %}" alt="Cover" width="160">
                 <h3>9.5</h3>
                 <h4>Título de la novela</h4>
+                <h4>Volumen</h4>
                 <h5>Nombre del capítulo</h5>
             </div>
         </div>
@@ -29,6 +30,25 @@
 
     <div>
         <h2>Últimas actualizaciones</h2>
-        <ul></ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Capítulo</th>
+                    <th>Novela</th>
+                    <th>Fansub</th>
+                    <th>Tiempo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="{% static 'img/guts.jpg' %}" alt="Cover" width="40"></td>
+                    <td>Capítulo 1 - Quien sabe qué...</td>
+                    <td>Overlord<br/>Volumen 3</td>
+                    <td>No sé Fansub</td>
+                    <td>Hace 3 meses</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 {% endblock %}

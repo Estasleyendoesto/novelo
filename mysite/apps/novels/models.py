@@ -1,12 +1,15 @@
 from django.db import models
 from multiselectfield import MultiSelectField
 
+def image_path():
+    return 'media/novels'
+
 class Novel(models.Model):
     title         = models.CharField(max_length=180, null=False, blank=False)
     alter_title   = models.CharField(max_length=180, null=True, blank=True)
     description   = models.TextField(max_length=666, null=True, blank=True)
     date_emission = models.DateField(null=True, blank=True)
-    cover_path    = models.SlugField(max_length=255, null=True, blank=True)
+    cover_path    = models.FilePathField(path=image_path, recursive=True, null=True, blank=True)   # Posibilidad de quitar recursive!!
 
     TYPE_CHOICES = [
         ('LN', 'Light novel'),  
@@ -56,7 +59,7 @@ class Novel(models.Model):
         ('YUI', 'Yuri'),
     ]
 
-    genre         = MultiSelectField(choices=GENRE_CHOICES, max_length=3, default=GENRE_CHOICES[0][0])
+    genre         = MultiSelectField(choices=GENRE_CHOICES, default=GENRE_CHOICES[0][0])
 
     author        = models.JSONField(null=True)
     artist        = models.JSONField(null=True)
@@ -74,12 +77,11 @@ class Novel(models.Model):
         verbose_name        = 'Novela'
         verbose_name_plural = 'Novelas'
 
-
 class Distro(models.Model):
     title         = models.CharField(max_length=180, null=False, blank=False)
     numero        = models.SmallIntegerField(verbose_name='Volumen número')
     description   = models.TextField(max_length=666, null=True, blank=True)
-    cover_path    = models.SlugField(max_length=255, null=True, blank=True)
+    cover_path    = models.FilePathField(path=image_path, recursive=True, null=True, blank=True)   # Posibilidad de quitar recursive!!
     emision_date  = models.DateField(verbose_name='Fecha de emisión', null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     last_update   = models.DateTimeField(auto_now=True, verbose_name='Última actualización')
