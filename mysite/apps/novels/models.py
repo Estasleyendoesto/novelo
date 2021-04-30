@@ -1,15 +1,12 @@
 from django.db import models
 from multiselectfield import MultiSelectField
 
-def image_path():
-    return 'media/novels'
-
 class Novel(models.Model):
     title         = models.CharField(max_length=180, null=False, blank=False)
     alter_title   = models.CharField(max_length=180, null=True, blank=True)
     description   = models.TextField(max_length=666, null=True, blank=True)
     date_emission = models.DateField(null=True, blank=True)
-    cover_path    = models.FilePathField(path=image_path, recursive=True, null=True, blank=True)   # Posibilidad de quitar recursive!!
+    cover_path    = models.FilePathField(path='media/novels', recursive=True, null=True, blank=True)   # Posibilidad de quitar recursive!!
 
     TYPE_CHOICES = [
         ('LN', 'Light novel'),  
@@ -81,7 +78,7 @@ class Distro(models.Model):
     title         = models.CharField(max_length=180, null=False, blank=False)
     numero        = models.SmallIntegerField(verbose_name='Volumen número')
     description   = models.TextField(max_length=666, null=True, blank=True)
-    cover_path    = models.FilePathField(path=image_path, recursive=True, null=True, blank=True)   # Posibilidad de quitar recursive!!
+    cover_path    = models.FilePathField(path='media/novels', recursive=True, null=True, blank=True)   # Posibilidad de quitar recursive!!
     emision_date  = models.DateField(verbose_name='Fecha de emisión', null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     last_update   = models.DateTimeField(auto_now=True, verbose_name='Última actualización')
@@ -116,7 +113,6 @@ class Chapter(models.Model):
 
     type          = models.CharField(max_length=3, null=True, choices=TYPE_CHOICES, default=TYPE_CHOICES[3][0], verbose_name='Tipo')
     distro        = models.ForeignKey('Distro', on_delete=models.CASCADE, null=False, blank=False, related_name='chapter_distro', verbose_name='Distribución')
-    views         = models.IntegerField(editable=False, default=0)
 
     def __str__(self):
         return 'Capítulo {0}'.format(self.numero)

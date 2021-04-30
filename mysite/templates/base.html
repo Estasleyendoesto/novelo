@@ -12,20 +12,14 @@
             <nav>
                 <ul>
                     <li><a href="#">Search</a></li>
+                    <li><a href="#">Random</a></li>
                     <li><a href="#">My Libraries</a></li>
                     <li><a href="#">Dark mode</a></li>
                 </ul>
             </nav>
-            <div>
-                <div>
-                    <small>Bienvenido, anónimo!</small>
-                    <p><a href="#">Iniciar Sesión</a> | <a href="#">Registrarse</a></p>
-                </div>
-                <div>
-                    {% load static %}
-                    <img src="{% static 'img/loli.jpg' %}" alt="Username" width='80'/>
-                </div>
-            </div>
+
+            {% include "users/welcome.html" %}
+
         </header>
         <main>
             {% block content %}{% endblock %}
@@ -34,6 +28,6 @@
             <small>☻ Copyright; Todos los derechos reservados.</small>
         </footer>
 
-        {% block scripts %}{% endblock %}
+        {% block js %}{% endblock %}
     </body>
 </html>

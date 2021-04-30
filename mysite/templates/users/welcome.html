@@ -1,0 +1,15 @@
+<div>
+    <div>
+    {% if user.is_authenticated %}
+        <small>Bienvenido devuelta!</small> {# Generar saludos personalizados según fechas #}
+        <a href="#">{{ user.username }}</a>
+    {% else %}
+        <small>Bienvenido, anónimo!</small>
+        <p><a href="#">Iniciar Sesión</a> | <a href="#">Registrarse</a></p>
+    {% endif %}
+    </div>
+    <div>
+        {% load static %}
+        <img src="{% static 'img/loli.jpg' %}" alt="Username" width='80'/>
+    </div>
+</div>

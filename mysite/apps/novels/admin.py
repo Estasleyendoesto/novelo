@@ -27,9 +27,9 @@ class DistroAdmin(admin.ModelAdmin):
 
 @admin.register(Chapter)
 class ChapterAdmin(admin.ModelAdmin):
-    list_display       = ['title', 'numero', 'type', 'distro', 'novela', 'creation_date', 'views']
+    list_display       = ['title', 'numero', 'type', 'distro', 'novela', 'creation_date']
     ordering           = ['title', 'numero']
-    readonly_fields    = ('creation_date', 'last_update', 'views')
+    readonly_fields    = ('creation_date', 'last_update')
     list_display_links = ['title', 'numero']
     list_filter        = ('type', 'creation_date', 'last_update')
     search_fields      = ['title', 'numero']
