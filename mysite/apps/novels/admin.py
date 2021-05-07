@@ -34,7 +34,7 @@ class ChapterAdmin(admin.ModelAdmin):
     list_filter        = ('type', 'creation_date', 'last_update')
     search_fields      = ['title', 'numero']
 
-    empty_value_display    = ''
+    empty_value_display    = '---'
     show_full_result_count = True
 
     # para list_display[4] mostrar nombre de novela

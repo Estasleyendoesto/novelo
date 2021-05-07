@@ -58,11 +58,14 @@ class Novel(models.Model):
 
     genre         = MultiSelectField(choices=GENRE_CHOICES, default=GENRE_CHOICES[0][0])
 
-    author        = models.JSONField(null=True)
-    artist        = models.JSONField(null=True)
+    author        = models.JSONField(null=True, blank=True)
+    artist        = models.JSONField(null=True, blank=True)
 
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     last_update   = models.DateTimeField(auto_now=True)
+
+    updated_by    = models.ForeignKey('users.User', on_delete=models.CASCADE, null=False, blank=False, related_name='novel_user', verbose_name='Actualizado por')
+
     likes         = models.IntegerField(editable=False, default=0, verbose_name='Likes')
     dislikes      = models.IntegerField(editable=False, default=0, verbose_name='Dislikes')
     views         = models.IntegerField(editable=False, default=0, verbose_name='Vistas')
@@ -82,6 +85,9 @@ class Distro(models.Model):
     emision_date  = models.DateField(verbose_name='Fecha de emisión', null=True, blank=True)
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     last_update   = models.DateTimeField(auto_now=True, verbose_name='Última actualización')
+
+    updated_by    = models.ForeignKey('users.User', on_delete=models.CASCADE, null=False, blank=False, related_name='distro_user', verbose_name='Actualizado por')
+    
     novel         = models.ForeignKey('Novel', on_delete=models.CASCADE, null=False, blank=False, related_name='distro_novel', verbose_name='Novela')
     likes         = models.IntegerField(editable=False, default=0)
     dislikes      = models.IntegerField(editable=False, default=0)
@@ -100,7 +106,8 @@ class Chapter(models.Model):
     numero        = models.SmallIntegerField()
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     last_update   = models.DateTimeField(auto_now=True)
-    new_content   = models.BooleanField()
+    last_content  = models.DateTimeField(null=True, blank=True, verbose_name='Último contenido')
+    updated_by    = models.ForeignKey('users.User', on_delete=models.CASCADE, null=False, blank=False, related_name='chapter_user', verbose_name='Actualizado por')
 
     TYPE_CHOICES = [
         ('PRO', 'Prologue'),
@@ -113,6 +120,8 @@ class Chapter(models.Model):
 
     type          = models.CharField(max_length=3, null=True, choices=TYPE_CHOICES, default=TYPE_CHOICES[3][0], verbose_name='Tipo')
     distro        = models.ForeignKey('Distro', on_delete=models.CASCADE, null=False, blank=False, related_name='chapter_distro', verbose_name='Distribución')
+
+    views         = models.IntegerField(editable=False, default=0)
 
     def __str__(self):
         return 'Capítulo {0}'.format(self.numero)
@@ -129,7 +138,9 @@ class Illustration(models.Model):
     name        = models.SlugField(max_length=60, null=True, blank=True)
     picture     = models.ImageField(upload_to=distro_directory_path, max_length=100, null=False)
     distro      = models.ForeignKey('Distro', on_delete=models.CASCADE, null=False, blank=False, related_name='illustration_distro', verbose_name='Distribución')
+
     uploaded_by = models.ForeignKey('users.User', on_delete=models.CASCADE, null=False, blank=False, related_name='illustration_user', verbose_name='Usuario')
+
     upload_date = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de subida')
 
     def __str__(self):

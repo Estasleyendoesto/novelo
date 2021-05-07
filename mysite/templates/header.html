@@ -1,0 +1,25 @@
+<header class="style">
+    <h1>LOGOTYPE</h1>
+    <nav>
+        <ul>
+            <li><a href="#">Search</a></li>
+            <li><a href="#">Random</a></li>
+            <li><a href="#">My Libraries</a></li>
+            <li><a href="#">Dark mode</a></li>
+        </ul>
+    </nav>
+    
+    <div>
+        <div>
+        {% if user.is_authenticated %}
+            <small>Bienvenido devuelta!</small> {# Generar saludos personalizados según fechas #}
+            <a href="#">{{ user.username }}</a>
+        {% else %}
+            <small>Bienvenido, anónimo!</small>
+            <p><a href="#">Iniciar Sesión</a> | <a href="#">Registrarse</a></p>
+        {% endif %}
+        </div>
+            {% load static %}
+            <img src="{% static 'img/loli.jpg' %}" alt="Username" width='80'/>
+    </div>
+</header>

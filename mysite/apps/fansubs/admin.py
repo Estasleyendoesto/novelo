@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Fansub, Support, Membership
+from .models import Fansub, Contrib, Membership
 
 @admin.register(Fansub)
 class FansubAdmin(admin.ModelAdmin):
@@ -25,8 +25,8 @@ class MembershipAdmin(admin.ModelAdmin):
     show_full_result_count = True
 
 
-@admin.register(Support)
-class SupportAdmin(admin.ModelAdmin):
+@admin.register(Contrib)
+class ContribAdmin(admin.ModelAdmin):
     list_display       = ['fansub', 'chapter', 'last_update', 'views']
     ordering           = ['fansub']
     readonly_fields    = ('creation_date', 'last_update')

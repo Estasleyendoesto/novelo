@@ -3,11 +3,14 @@
 
 {% block title %}Home{% endblock %}
 
-
 {% block content %}
+<main>
+
+</main>
 <!--
     <div>
         <h2>Inicia tu búsqueda</h2>
+        {# action se va a la vista search #}
         <form action="" method="get">
             <label>Buscar</label>
             <input type="text" name="search">
@@ -15,25 +18,26 @@
             <input type="submit" value="Voy a tener suerte">
         </form>
     </div>
+!-->
 
-    <div>
+    <div class="style hot">
         <h2>HOT</h2>
         <div>
-            {# Se debe generar dinámicamente #}
-            <div>
-                <img src="{% static 'img/guts.jpg' %}" alt="Cover" width="160">
-                <h3>9.5</h3>
-                <h4>Título de la novela</h4>
-                <h4>Volumen</h4>
-                <h5>Nombre del capítulo</h5>
-            </div>
-            {# end #}
+            {% for hot in hot_novels %}
+                <div>
+                    <img src="{{ hot.distro.cover_path }}" alt="{{ hot.distro.novel }}" width="120">
+                    <h3>{{ hot.distro.novel.likes }}</h3>
+                    <h4>{{ hot.distro.novel }}</h4>
+                    <h4>{{ hot.distro.title }}</h4>
+                    <h5>{{ hot }}</h5>
+                </div>
+            {% endfor %}
         </div>
     </div>
 
-    <div>
+    <div class="style">
         <h2>Últimas actualizaciones</h2>
-        <table>
+        <table class="home-table">
             <thead>
                 <tr>
                     <th>Imagen</th>
@@ -45,16 +49,19 @@
             </thead>
             <tbody>
                 {# Se debe generar dinámicamente #}
-                <tr>
-                    <td><img src="{% static 'img/guts.jpg' %}" alt="Cover" width="40"></td>
-                    <td>Capítulo 1 - Quien sabe qué...</td>
-                    <td>Overlord<br/>Volumen 3</td>
-                    <td>No sé Fansub</td>
-                    <td>Hace 3 meses</td>
-                </tr>
+                {% load humanize %}
+                {% for upload in uploads %}
+                    <tr>
+                        <td><img src="{{ upload.chapter.distro.cover_path }}" alt="{{ upload.chapter.distro.novel }}" width="40"></td>
+                        <td>{{ upload.chapter }} {% if upload.chapter.title %} - {{ upload.chapter.title }}{% endif %}</td>
+                        <td>{{ upload.chapter.distro.novel }}<br/>{{ upload.chapter.distro }}</td>
+                        <td>{{ upload.fansub }}</td>
+                        <td>{{ upload.creation_date|naturaltime }}</td>
+                    </tr>
+                {% endfor %}
                 {# end #}
             </tbody>
         </table>
     </div>
--->
+
 {% endblock %}

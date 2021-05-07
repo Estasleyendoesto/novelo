@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'apps.novels',
     'apps.fansubs',
 
+    'django.contrib.humanize',
     'django_cleanup.apps.CleanupConfig',
     'multiselectfield',
 ]

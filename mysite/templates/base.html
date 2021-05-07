@@ -4,30 +4,20 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock %}</title>
+        {# Styles #}
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
         {% block css %}{% endblock %}
     </head>
     <body>
-        <header>
-            <h1>LOGOTYPE</h1>
-            <nav>
-                <ul>
-                    <li><a href="#">Search</a></li>
-                    <li><a href="#">Random</a></li>
-                    <li><a href="#">My Libraries</a></li>
-                    <li><a href="#">Dark mode</a></li>
-                </ul>
-            </nav>
+    
+        {% include 'header.html' %}
 
-            {% include "users/welcome.html" %}
+        {% block content %}{% endblock %}
 
-        </header>
-        <main>
-            {% block content %}{% endblock %}
-        </main>
-        <footer>
-            <small>☻ Copyright; Todos los derechos reservados.</small>
-        </footer>
-
+        {% include 'footer.html' %}
+        
+        {# Scripts #}
         {% block js %}{% endblock %}
     </body>
 </html>

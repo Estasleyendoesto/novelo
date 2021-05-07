@@ -4,14 +4,14 @@ class Fansub(models.Model):
     name           = models.CharField(max_length=120, null=False, blank=False, unique=True)
     about          = models.TextField(max_length=666, null=True, blank=True)
     cover          = models.ImageField(upload_to='fansubs/', max_length=100, null=True, blank=True)
-    external       = models.JSONField(null=True)
+    external       = models.JSONField(null=True, blank=True)
     creation_date  = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     last_update    = models.DateTimeField(auto_now=True)
     likes          = models.IntegerField(editable=False, default=0)
     dislikes       = models.IntegerField(editable=False, default=0)
     views          = models.IntegerField(editable=False, default=0)
     
-    supports       = models.ManyToManyField('novels.Chapter', through='Support', through_fields=('fansub', 'chapter') )
+    contribs       = models.ManyToManyField('novels.Chapter', through='Contrib', through_fields=('fansub', 'chapter') )
     members        = models.ManyToManyField('users.User', through='Membership', through_fields=('fansub', 'user') )
 
     def __str__(self):
@@ -22,8 +22,8 @@ class Fansub(models.Model):
         verbose_name_plural = 'Fansubs'
 
 
-class Support(models.Model):
-    fansub        = models.ForeignKey('Fansub', on_delete=models.CASCADE, null=False, blank=False, related_name='support_fansub')
+class Contrib(models.Model):
+    fansub        = models.ForeignKey('Fansub', on_delete=models.CASCADE, null=False, blank=False, related_name='contrib_fansub')
     chapter       = models.ForeignKey('novels.Chapter', on_delete=models.CASCADE, null=False, blank=False, related_name='chapter_fansub')
 
     content       = models.TextField(null=False, blank='False')

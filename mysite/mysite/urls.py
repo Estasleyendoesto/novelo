@@ -21,12 +21,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 # Custom views
-from apps.main import views as main
+from apps.main.views import HomeView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', main.home, name='home'),
+    path('', HomeView.as_view(), name='home'),
 ]
 
 if settings.DEBUG:
