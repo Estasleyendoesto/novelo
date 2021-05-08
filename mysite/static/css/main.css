@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 body {
     padding: 42px;
     background-color: #fcfcfc;
+    font-family: 'Poppins', sans-serif;
 }
 
 .style {
@@ -8,6 +11,10 @@ body {
     background-color: #eeeeee;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
+}
+
+h2 {
+    color: #3f7abe;
 }
 
 header {
